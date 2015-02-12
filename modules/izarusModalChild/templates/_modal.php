@@ -5,7 +5,7 @@
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i class="glyphicon glyphicon-remove"></i></span></button>
             <h4 class="modal-title" id="myModalLabel"></h4>
           </div>
-          [form class="form-horizontal ajaxform" method="post" action="<?php echo url_for('izarusModalChild/processForm?imcd='.str_replace('a','_',strrev(base64_encode(json_encode(array('c'=>$class,'f'=>$form_class,'opi'=>$obj_parent_id,'pi'=>$parent_id)))))); ?>" form]
+          [form class="form-horizontal ajaxform" enctype="multipart\/form-data" method="post" action="<?php echo url_for('izarusModalChild/processForm?imcd='.str_replace('a','_',strrev(base64_encode(json_encode(array('c'=>$class,'f'=>$form_class,'opi'=>$obj_parent_id,'pi'=>$parent_id)))))); ?>" form]
             <div class="modal-body"></div>
             <div class="modal-footer">
               <div class="botones">
@@ -52,8 +52,8 @@ function imf_<?php echo $class?>_updateClics(){
     }
     $(id+' .modal-body').html('<i class="fa fa-spin fa-spinner"></i> Cargando...');
     $.get($(id+' form').attr('action'),param,function(data){
-      response = JSON.parse(data);
-      $(id+' .modal-body').html(response.data);
+      response = data.split('|@|');
+      $(id+' .modal-body').html(response[1]);
       $(id+' .modal-footer .btn-primary').prop('disabled',false);
       $(id+' .modal-footer .btn-danger').prop('disabled',false);
       $(id+' .modal-footer .btn-success').prop('disabled',false);
@@ -72,17 +72,17 @@ $('#izarusModalChild<?php echo $class; ?>Modal').on('hidden.bs.modal', function 
       $('#izarusModalChild<?php echo $class; ?>Modal form').children('.modal-footer').children('.espere').show();
       $('#izarusModalChild<?php echo $class; ?>Modal form').children('.modal-footer').children('.botones').hide();
     },success: function(responseText){
-      response = JSON.parse(responseText);
+      response = responseText.split('|@|');
       $('#izarusModalChild<?php echo $class; ?>Modal form').children('.modal-footer').children('.espere').hide();
       $('#izarusModalChild<?php echo $class; ?>Modal form').children('.modal-footer').children('.botones').show();
-      if(response.status=='ERROR'){
+      if(response[0]=='ERROR'){
         $('#izarusModalChild<?php echo $class; ?>Modal form').children('.modal-body').prepend('<div class="alert alert-danger">Ocurrió un error al intentar realizar esa acción.</div>');
-      }else if(response.status=='OK'){
+      }else if(response[0]=='OK'){
         $('#izarusModalChild<?php echo $class; ?>Modal form').parent().parent().parent().modal('hide');
-        $('#izarusModalChild<?php echo $class; ?>Load').html(response.data);
+        $('#izarusModalChild<?php echo $class; ?>Load').html(response[1]);
           imf_<?php echo $class?>_updateClics();
       }else{
-        $('#izarusModalChild<?php echo $class; ?>Modal form').children('.modal-body').html(response.data);
+        $('#izarusModalChild<?php echo $class; ?>Modal form').children('.modal-body').html(response[1]);
       }
     }});
 
@@ -92,7 +92,7 @@ $('#izarusModalChild<?php echo $class; ?>Modal').on('hidden.bs.modal', function 
 $(function(){
   var modal = $('<div>').html($('#izarusModalChild<?php echo $class; ?>Modal.cloneAtEnd').clone());
   modal.children('#izarusModalChild<?php echo $class; ?>Modal').removeClass('cloneAtEnd');
-  $('body').append(modal.html().replace('[form','<form').replace('form]','>').replace('[/form]','</form>'));
+  $('body').append(modal.html().replace('[form','<form').replace('form]','>').replace('[/form]','</form>').replace('\\/','/'));
   $('#izarusModalChild<?php echo $class; ?>Modal.cloneAtEnd').remove();   
 
   imf_<?php echo $class?>_updateClics();

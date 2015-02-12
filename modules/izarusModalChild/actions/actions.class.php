@@ -3,6 +3,7 @@
 class izarusModalChildActions extends sfActions
 {
   public function executeProcessForm(sfWebRequest $request){
+    sfConfig::set('sf_web_debug', false);
     if(!$request->getParameter('imcd'))
       die;
     $secret = json_decode(base64_decode(strrev(str_replace('_','a',$request->getParameter('imcd')))),true);
@@ -31,14 +32,14 @@ class izarusModalChildActions extends sfActions
     }else{
       $obj = $table_name::getInstance()->findOneById($id);
       if(!$obj || ($obj && $obj->get($secret['opi'])!= $secret['pi']))
-        return $this->renderText(json_encode(array('status'=>'Forbidden','data'=>'Forbidden')));
+        return $this->renderText('Forbidden');
       $form = new $form_name($obj);
     }
 
     if($request->isMethod('post')){
       $obj_arr = $request->getParameter($obj_name);
       $obj_arr[$secret['opi']] = $secret['pi'];
-      $form->bind($obj_arr);
+      $form->bind($obj_arr,$request->getFiles($obj_name));
       $form->updateObject();
 
       try{
@@ -47,34 +48,32 @@ class izarusModalChildActions extends sfActions
           if($obj && $obj->get($secret['opi'])==$secret['pi']){
             $obj->delete();
             $componet_data = $this->getUser()->getAttribute('izarusModalChild'.$clase.$form_name);
-            return $this->renderText(json_encode(array('status'=>'OK','data'=>$this->getPartial('izarusModalChild/table',array(
+            
+            return $this->renderText('OK'.'|@|'.$this->getPartial('izarusModalChild/table',array(
               'cols'=>$componet_data['c'],
               'collection'=>$table_name::getInstance()->createQuery()->where($secret['opi'].' = ?',$secret['pi'])->execute(),
               'messages'=>$componet_data['m'],
               'class'=>$clase,
-            )))));
+            )));
           }
-          return $this->renderText(json_encode(array('status'=>'ERROR')));
+          return $this->renderText('ERROR');
 
         //Insertar o Actualizar
         }else{
           if($form->isValid()){
-            $form->updateObject();
-            $obj = $form->getObject();
-            $obj->set($secret['opi'],$secret['pi']);
-            $obj->save();
+            $form->save();
             
             $componet_data = $this->getUser()->getAttribute('izarusModalChild'.$clase.$form_name);           
-            return $this->renderText(json_encode(array('status'=>'OK','data'=>$this->getPartial('izarusModalChild/table',array(
+            return $this->renderText('OK'.'|@|'.$this->getPartial('izarusModalChild/table',array(
               'cols'=>$componet_data['c'],
               'collection'=>$table_name::getInstance()->createQuery()->where($secret['opi'].' = ?',$secret['pi'])->execute(),
               'messages'=>$componet_data['m'],
               'class'=>$clase,
-            )))));
+            )));
           }
         }
       }catch(Exception $e){
-        return $this->renderText(json_encode(array('status'=>'ERROR')));
+        return $this->renderText('ERROR');
       }
 
     }else{
@@ -82,11 +81,11 @@ class izarusModalChildActions extends sfActions
       if(count($del_id)==2){
         $data = array();
         $data['form'] = new $form_name($obj);
-        return $this->renderText(json_encode(array('status'=>'FORM','data'=>$this->getPartial('izarusModalChild/deleteModal',$data))));
+        return $this->renderText('FORM'.'|@|'.$this->getPartial('izarusModalChild/deleteModal',$data));
       }
     }
 
-    return $this->renderText(json_encode(array('status'=>'FORM','data'=>$form.'')));
+    return $this->renderText('FORM'.'|@|'.$form.'');
   }
 
 }
