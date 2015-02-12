@@ -67,25 +67,25 @@ $('#izarusModalChild<?php echo $class; ?>Modal').on('hidden.bs.modal', function 
     $('#'+id+' .modal-body').html('<i class="fa fa-spin fa-spinner"></i> Cargando...');
   })
 
-  $.each($('.ajaxform'),function(index,value){
-    $(value).ajaxForm({beforeSubmit: function(){
-      $(value).children('.modal-footer').children('.espere').show();
-      $(value).children('.modal-footer').children('.botones').hide();
+
+    $('#izarusModalChild<?php echo $class; ?>Modal form').ajaxForm({beforeSubmit: function(){
+      $('#izarusModalChild<?php echo $class; ?>Modal form').children('.modal-footer').children('.espere').show();
+      $('#izarusModalChild<?php echo $class; ?>Modal form').children('.modal-footer').children('.botones').hide();
     },success: function(responseText){
       response = JSON.parse(responseText);
-      $(value).children('.modal-footer').children('.espere').hide();
-      $(value).children('.modal-footer').children('.botones').show();
+      $('#izarusModalChild<?php echo $class; ?>Modal form').children('.modal-footer').children('.espere').hide();
+      $('#izarusModalChild<?php echo $class; ?>Modal form').children('.modal-footer').children('.botones').show();
       if(response.status=='ERROR'){
-        $(value).children('.modal-body').prepend('<div class="alert alert-danger">Ocurrió un error al intentar realizar esa acción.</div>');
+        $('#izarusModalChild<?php echo $class; ?>Modal form').children('.modal-body').prepend('<div class="alert alert-danger">Ocurrió un error al intentar realizar esa acción.</div>');
       }else if(response.status=='OK'){
-        $(value).parent().parent().parent().modal('hide');
+        $('#izarusModalChild<?php echo $class; ?>Modal form').parent().parent().parent().modal('hide');
         $('#izarusModalChild<?php echo $class; ?>Load').html(response.data);
           imf_<?php echo $class?>_updateClics();
       }else{
-        $(value).children('.modal-body').html(response.data);
+        $('#izarusModalChild<?php echo $class; ?>Modal form').children('.modal-body').html(response.data);
       }
     }});
-  });
+
 }
 
 

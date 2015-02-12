@@ -36,7 +36,9 @@ class izarusModalChildActions extends sfActions
     }
 
     if($request->isMethod('post')){
-      $form->bind($request->getParameter($obj_name));
+      $obj_arr = $request->getParameter($obj_name);
+      $obj_arr[$secret['opi']] = $secret['pi'];
+      $form->bind($obj_arr);
       $form->updateObject();
 
       try{
