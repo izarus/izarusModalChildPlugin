@@ -14,7 +14,9 @@ class izarusModalChildActions extends sfActions
     $form_name = $secret['f'];
     $form = new $form_name();
     $obj_name = $form->getName();
-
+    
+    $componet_data = $this->getUser()->getAttribute('izarusModalChild'.$clase.$form_name);
+    
     $clase = $secret['c'];
     $del_id = explode('-',$request->getParameter('id'));
     $id = $request->getParameter('id');
@@ -73,6 +75,7 @@ class izarusModalChildActions extends sfActions
           }
         }
       }catch(Exception $e){
+        //throw $e;
         return $this->renderText('ERROR');
       }
 
@@ -85,7 +88,7 @@ class izarusModalChildActions extends sfActions
       }
     }
 
-    return $this->renderText('FORM'.'|@|'.$form.'');
+    return $this->renderText('FORM'.'|@|'.$this->getPartial((!empty($componet_data['fp']))?$componet_data['fp']:'izarusModalChild/form',array('form'=>$form)));
   }
 
 }
