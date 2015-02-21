@@ -20,16 +20,18 @@ class izarusModalChildActions extends sfActions
     $clase = $secret['c'];
     $del_id = explode('-',$request->getParameter('id'));
     $id = $request->getParameter('id');
-
+    $action = $request->getParameter('id');
+    
     if(count($del_id)==2){
       //eliminacion "del-id"
       $id = $del_id[1];
     }else if($request->isMethod('post')){
       $id = $request->getParameter($obj_name);
       $id = $id['id'];
+      $obj = $table_name::getInstance()->findOneById($id);
     }
 
-    if($id=='+' || !$id){
+    if($action=='+' || ($request->isMethod('post') && count($del_id)<2 && !$obj)){
       $form = new $form_name();
     }else{
       $obj = $table_name::getInstance()->findOneById($id);
