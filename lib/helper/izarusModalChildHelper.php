@@ -14,5 +14,6 @@ function imc_parse_text($str,$obj){
   foreach($match[1] AS $function){
     $str = str_replace('#'.$function.'#',$obj->$function(),$str);
   }
+  
   return html_entity_decode($str);
 }

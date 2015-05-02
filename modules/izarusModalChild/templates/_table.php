@@ -19,7 +19,12 @@
       <tr>
 <?php foreach($cols AS $col_name=>$text): ?>
         <td><?php 
+        if(strpos($text,'_')===FALSE || strpos($text,'_')>0)
           echo imc_parse_text($text,$c);
+        else{
+          preg_match_all('/\p{Lu}\p{Ll}*\P{Lu}/', get_class($c), $m);
+          include_partial(substr($text,1),array(strtolower(implode('_',$m[0]))=>$c));
+        }
         ?></td>
 <?php endforeach; ?>
         <td class="text-right" style="width:80px;">
