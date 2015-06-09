@@ -24,13 +24,16 @@ class izarusModalChildComponents extends sfComponents
     
     if(!isset($this->call_js_function))
       $this->call_js_function = '';
+      
+    if(!isset($this->buttons))
+      $this->buttons = array();
     
     $this->getUser()->setAttribute('izarusModalChild'.$this->class.$this->form_class,array(
       'm'=>$this->messages,
       'c'=>$this->cols,
       'fp'=>isset($this->form_partial)?$this->form_partial:'',
       'q'=>isset($this->query)?$this->query:array(),
-      'b'=>isset($this->buttons)?$this->buttons:array(),
+      'b'=>$this->buttons,
     ));
   }
 }
