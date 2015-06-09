@@ -45,6 +45,7 @@ class izarusModalChildActions extends sfActions
       $obj_arr[$secret['opi']] = $secret['pi'];
       $form->bind($obj_arr,$request->getFiles($obj_name));
       $form->updateObject();
+      
 
       try{
         //Eliminar
@@ -53,11 +54,25 @@ class izarusModalChildActions extends sfActions
             $obj->delete();
             $componet_data = $this->getUser()->getAttribute('izarusModalChild'.$clase.$form_name);
             
+            $root = 'a';
+            if(isset($componet_data['q']['root']))
+              $root = $componet_data['q']['root'];
+                        
+            $collection = $table_name::getInstance()->createQuery($root)->where($secret['opi'].' = ?',$secret['pi']);
+            
+            if(isset($componet_data['q']['left_joins']))
+              foreach($componet_data['q']['left_joins'] AS $lj)
+                $collection = $collection->leftJoin($lj);
+            if(isset($componet_data['q']['order_by']))
+              $collection = $collection->orderBy($componet_data['q']['order_by']);
+            $collection = $collection->execute();
+            
             return $this->renderText('OK'.'|@|'.$this->getPartial('izarusModalChild/table',array(
               'cols'=>$componet_data['c'],
-              'collection'=>$table_name::getInstance()->createQuery()->where($secret['opi'].' = ?',$secret['pi'])->execute(),
+              'collection'=>$collection,
               'messages'=>$componet_data['m'],
               'class'=>$clase,
+              'buttons'=>$componet_data['b'],
             )));
           }
           return $this->renderText('ERROR');
@@ -67,12 +82,27 @@ class izarusModalChildActions extends sfActions
           if($form->isValid()){
             $form->save();
             
-            $componet_data = $this->getUser()->getAttribute('izarusModalChild'.$clase.$form_name);           
+            $componet_data = $this->getUser()->getAttribute('izarusModalChild'.$clase.$form_name);  
+
+            $root = 'a';
+            if(isset($componet_data['q']['root']))
+              $root = $componet_data['q']['root'];
+                        
+            $collection = $table_name::getInstance()->createQuery($root)->where($secret['opi'].' = ?',$secret['pi']);
+            
+            if(isset($componet_data['q']['left_joins']))
+              foreach($componet_data['q']['left_joins'] AS $lj)
+                $collection = $collection->leftJoin($lj);
+            if(isset($componet_data['q']['order_by']))
+              $collection = $collection->orderBy($componet_data['q']['order_by']);
+            $collection = $collection->execute();
+
             return $this->renderText('OK'.'|@|'.$this->getPartial('izarusModalChild/table',array(
               'cols'=>$componet_data['c'],
-              'collection'=>$table_name::getInstance()->createQuery()->where($secret['opi'].' = ?',$secret['pi'])->execute(),
+              'collection'=>$collection,
               'messages'=>$componet_data['m'],
               'class'=>$clase,
+              'buttons'=>$componet_data['b'],
             )));
           }
         }

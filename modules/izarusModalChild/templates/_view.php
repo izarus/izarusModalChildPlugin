@@ -3,6 +3,7 @@
   'collection'=>$collection,
   'messages'=>$messages,
   'class'=>$class,
+  'buttons'=>$buttons,
 )); ?>
 <?php echo include_partial('izarusModalChild/modal',array(
   'messages'=>$messages,
@@ -11,4 +12,5 @@
   'obj_parent_id'=>$obj_parent_id,
   'parent_id'=>$parent_id,
   'cols'=>$cols,
+  'call_js_function'=>$call_js_function,
 )); ?>

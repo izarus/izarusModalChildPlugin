@@ -81,6 +81,9 @@ $('#izarusModalChild<?php echo $class; ?>Modal').on('hidden.bs.modal', function 
         $('#izarusModalChild<?php echo $class; ?>Modal form').parent().parent().parent().modal('hide');
         $('#izarusModalChild<?php echo $class; ?>Load').html(response[1]);
           imf_<?php echo $class?>_updateClics();
+<?php if(!empty($call_js_function)){ ?>
+          <?php echo $call_js_function; ?>();
+<?php } ?>
       }else{
         $('#izarusModalChild<?php echo $class; ?>Modal form').children('.modal-body').html(response[1]);
       }

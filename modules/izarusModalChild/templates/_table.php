@@ -27,9 +27,17 @@
         }
         ?></td>
 <?php endforeach; ?>
-        <td class="text-right" style="width:80px;">
-          <a data-href="<?php echo $c->getId(); ?>" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#izarusModalChild<?php echo $class; ?>Modal">&nbsp;<small class="glyphicon glyphicon-pencil"></small>&nbsp;</a>
-          <a data-href="del-<?php echo $c->getId(); ?>" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#izarusModalChild<?php echo $class; ?>Modal">&nbsp;<small class="glyphicon glyphicon-remove"></small>&nbsp;</a>
+        <td class="text-right" style="width:<?php echo (80+40*count($buttons)); ?>px;">
+<?php foreach($buttons AS $b){ ?>
+<?php
+$params = array();
+foreach($b['param'] AS $name=>$value)
+  $params[] = $name.'='.$c[$value];
+?>
+          <a href="<?php echo url_for($b['redirect'].'?'.implode('&',$params)); ?>" class="btn btn-<?php echo $b['color']; ?> btn-xs" style="width:30px"><small class="glyphicon glyphicon-<?php echo $b['icon']; ?>"></small></a>
+<?php } ?>
+          <a data-href="<?php echo $c->getId(); ?>" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#izarusModalChild<?php echo $class; ?>Modal" style="width:30px"><small class="glyphicon glyphicon-pencil"></small></a>
+          <a data-href="del-<?php echo $c->getId(); ?>" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#izarusModalChild<?php echo $class; ?>Modal" style="width:30px"><small class="glyphicon glyphicon-remove"></small></a>
         </td>
       </tr>
 <?php endforeach; ?>
