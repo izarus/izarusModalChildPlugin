@@ -27,7 +27,7 @@
         }
         ?></td>
 <?php endforeach; ?>
-        <td class="text-right" style="width:<?php echo (80+40*count($buttons)); ?>px;">
+        <td class="text-right" style="white-space: nowrap;">
 <?php foreach($buttons AS $b){ ?>
 <?php
 $params = array();
