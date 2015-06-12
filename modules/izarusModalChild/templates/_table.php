@@ -1,5 +1,5 @@
 <?php use_helper('izarusModalChild'); ?>
-<div id="izarusModalChild<?php echo $class; ?>Load">   
+<div id="izarusModalChild<?php echo $class; ?>Load">
    <table class="table table-bordered table-stripped">
     <thead>
       <tr>
@@ -18,7 +18,7 @@
 <?php foreach($sf_data->getRaw('collection') AS $c): ?>
       <tr>
 <?php foreach($cols AS $col_name=>$text): ?>
-        <td><?php 
+        <td><?php
         if(strpos($text,'_')===FALSE || strpos($text,'_')>0)
           echo imc_parse_text($text,$c);
         else{
@@ -34,10 +34,10 @@ $params = array();
 foreach($b['param'] AS $name=>$value)
   $params[] = $name.'='.$c[$value];
 ?>
-          <a href="<?php echo url_for($b['redirect'].'?'.implode('&',$params)); ?>" class="btn btn-<?php echo $b['color']; ?> btn-xs" style="width:30px"><small class="glyphicon glyphicon-<?php echo $b['icon']; ?>"></small></a>
+          <a href="<?php echo url_for($b['redirect'].'?'.implode('&',$params)); ?>" class="btn btn-<?php echo $b['color']; ?> btn-sm"><small class="glyphicon glyphicon-<?php echo $b['icon']; ?>"></small></a>
 <?php } ?>
-          <a data-href="<?php echo $c->getId(); ?>" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#izarusModalChild<?php echo $class; ?>Modal" style="width:30px"><small class="glyphicon glyphicon-pencil"></small></a>
-          <a data-href="del-<?php echo $c->getId(); ?>" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#izarusModalChild<?php echo $class; ?>Modal" style="width:30px"><small class="glyphicon glyphicon-remove"></small></a>
+          <a data-href="<?php echo $c->getId(); ?>" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#izarusModalChild<?php echo $class; ?>Modal"><small class="glyphicon glyphicon-pencil"></small></a>
+          <a data-href="del-<?php echo $c->getId(); ?>" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#izarusModalChild<?php echo $class; ?>Modal"><small class="glyphicon glyphicon-remove"></small></a>
         </td>
       </tr>
 <?php endforeach; ?>
