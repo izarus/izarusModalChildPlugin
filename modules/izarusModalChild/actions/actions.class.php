@@ -86,6 +86,7 @@ class izarusModalChildActions extends sfActions
               'class'=>$clase,
               'buttons'=>$componet_data['b'],
               'enabled_actions'=>$componet_data['a'],
+              'buttons_size'=>$componet_data['s'],
             )));
           }
           return $this->renderText('ERROR');
@@ -123,6 +124,7 @@ class izarusModalChildActions extends sfActions
               'class'=>$clase,
               'buttons'=>$componet_data['b'],
               'enabled_actions'=>$componet_data['a'],
+              'buttons_size'=>$componet_data['s'],
             )));
           }
         }

@@ -5,6 +5,7 @@
   'class'=>$class,
   'buttons'=>$buttons,
   'enabled_actions'=>$enabled_actions,
+  'buttons_size'=>$buttons_size,
 )); ?>
 <?php echo include_partial('izarusModalChild/modal',array(
   'messages'=>$messages,

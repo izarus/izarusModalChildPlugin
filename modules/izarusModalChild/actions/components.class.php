@@ -57,6 +57,9 @@ class izarusModalChildComponents extends sfComponents
       
     if(!isset($this->enabled_actions['delete']))
       $this->enabled_actions['delete'] = true;
+      
+    if(!isset($this->buttons_size))
+      $this->buttons_size = 'xs';
     
     $this->getUser()->setAttribute('izarusModalChild'.$this->class.$this->form_class,array(
       'm'=>$this->messages,
@@ -65,6 +68,7 @@ class izarusModalChildComponents extends sfComponents
       'q'=>isset($this->query)?$this->query:array(),
       'b'=>$this->buttons,
       'a'=>$this->enabled_actions,
+      's'=>$this->buttons_size,
     ));
     
   }
