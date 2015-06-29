@@ -9,13 +9,19 @@
   $value = $f->getValue();
   if(get_class($f->getWidget()) == 'sfWidgetFormDoctrineChoice'){
     $tabla = $f->getWidget()->getOption('model');
-    $tabla = $tabla.'Table';
-    $value = $tabla::getInstance()->findOneById($value);
+    $tabla = $tabla.'Table';    
+    $_value = array();
+    foreach($tabla::getInstance()->createQuery('t')->whereIn('t.id',$value)->execute() AS $v)
+      $_value[] = $v->__toString();
+    $value = implode('<br>',$_value);
   }else if(get_class($f->getWidget()) == 'sfWidgetFormInputCheckbox'){
     if($value)
       $value='Si';
     else
       $value='No';
+  }
+  if(is_array($value)){
+    $value = count($value);
   }
   echo $value; ?></td>
 </tr>
