@@ -15,4 +15,5 @@
   'parent_id'=>$parent_id,
   'cols'=>$cols,
   'call_js_function'=>$call_js_function,
+  'modal_size'=>$modal_size,
 )); ?>

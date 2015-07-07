@@ -1,5 +1,5 @@
      <div class="modal fade cloneAtEnd" id="izarusModalChild<?php echo $class; ?>Modal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog">
+      <div class="modal-dialog <?php echo $modal_size; ?>">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i class="glyphicon glyphicon-remove"></i></span></button>

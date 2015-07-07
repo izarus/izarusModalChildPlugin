@@ -61,6 +61,12 @@ class izarusModalChildComponents extends sfComponents
     if(!isset($this->buttons_size))
       $this->buttons_size = 'xs';
     
+    if(!isset($this->modal_size)){
+      $this->modal_size = '';
+    }else{
+      $this->modal_size = ' modal-'.$this->modal_size;
+    }
+    
     $this->getUser()->setAttribute('izarusModalChild'.$this->class.$this->form_class,array(
       'm'=>$this->messages,
       'c'=>$this->cols,
@@ -68,7 +74,7 @@ class izarusModalChildComponents extends sfComponents
       'q'=>isset($this->query)?$this->query:array(),
       'b'=>$this->buttons,
       'a'=>$this->enabled_actions,
-      's'=>$this->buttons_size,
+      's'=>$this->buttons_size
     ));
     
   }
