@@ -45,10 +45,10 @@ foreach($b['param'] AS $name=>$value)
 <?php } ?>
 
 <?php if($enabled_actions['edit']){ ?>
-          <a data-href="<?php echo $c->getId(); ?>" class="btn btn-primary btn-<?php echo $buttons_size; ?>" data-toggle="modal" data-target="#izarusModalChild<?php echo $class.$form_class; ?>Modal"><small class="glyphicon glyphicon-pencil"></small></a>
+          <a data-href="<?php echo $c->getId(); ?>" class="btn btn-primary btn-<?php echo $buttons_size; ?>" data-toggle="modal" data-target="#izarusModalChild<?php echo $class.$form_class; ?>Modal"><small class="glyphicon glyphicon-pencil"></small><?php echo (isset($messages['edit_button']))?' '.$messages['edit_button']:''; ?></a>
 <?php } ?>
 <?php if($enabled_actions['delete']){ ?>
-          <a data-href="del-<?php echo $c->getId(); ?>" class="btn btn-danger btn-<?php echo $buttons_size; ?>" data-toggle="modal" data-target="#izarusModalChild<?php echo $class.$form_class; ?>Modal"><small class="glyphicon glyphicon-remove"></small></a>
+          <a data-href="del-<?php echo $c->getId(); ?>" class="btn btn-danger btn-<?php echo $buttons_size; ?>" data-toggle="modal" data-target="#izarusModalChild<?php echo $class.$form_class; ?>Modal"><small class="glyphicon glyphicon-remove"></small><?php echo (isset($messages['delete_button']))?' '.$messages['delete_button']:''; ?></a>
 <?php } ?>
         </td>
 <?php } ?>
