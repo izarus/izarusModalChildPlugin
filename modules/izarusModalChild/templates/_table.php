@@ -1,5 +1,5 @@
 <?php use_helper('izarusModalChild'); ?>
-<div id="izarusModalChild<?php echo $class; ?>Load">
+<div id="izarusModalChild<?php echo $class.$form_class; ?>Load">
    <table class="table table-bordered table-stripped">
     <thead>
       <tr>
@@ -45,10 +45,10 @@ foreach($b['param'] AS $name=>$value)
 <?php } ?>
 
 <?php if($enabled_actions['edit']){ ?>
-          <a data-href="<?php echo $c->getId(); ?>" class="btn btn-primary btn-<?php echo $buttons_size; ?>" data-toggle="modal" data-target="#izarusModalChild<?php echo $class; ?>Modal"><small class="glyphicon glyphicon-pencil"></small></a>
+          <a data-href="<?php echo $c->getId(); ?>" class="btn btn-primary btn-<?php echo $buttons_size; ?>" data-toggle="modal" data-target="#izarusModalChild<?php echo $class.$form_class; ?>Modal"><small class="glyphicon glyphicon-pencil"></small></a>
 <?php } ?>
 <?php if($enabled_actions['delete']){ ?>
-          <a data-href="del-<?php echo $c->getId(); ?>" class="btn btn-danger btn-<?php echo $buttons_size; ?>" data-toggle="modal" data-target="#izarusModalChild<?php echo $class; ?>Modal"><small class="glyphicon glyphicon-remove"></small></a>
+          <a data-href="del-<?php echo $c->getId(); ?>" class="btn btn-danger btn-<?php echo $buttons_size; ?>" data-toggle="modal" data-target="#izarusModalChild<?php echo $class.$form_class; ?>Modal"><small class="glyphicon glyphicon-remove"></small></a>
 <?php } ?>
         </td>
 <?php } ?>
@@ -59,7 +59,7 @@ foreach($b['param'] AS $name=>$value)
 <?php if(!in_array($sf_context->getActionName(),array('show','new')) && $enabled_actions['add']){ ?>
     <tfoot>
       <tr>
-        <td colspan="<?php echo count($cols)+1; ?>"><a href="" data-href="+" data-toggle="modal" data-target="#izarusModalChild<?php echo $class; ?>Modal"><i class="glyphicon glyphicon-plus"></i> <?php echo $messages['add']; ?></a></td>
+        <td colspan="<?php echo count($cols)+1; ?>"><a href="" data-href="+" data-toggle="modal" data-target="#izarusModalChild<?php echo $class.$form_class; ?>Modal"><i class="glyphicon glyphicon-plus"></i> <?php echo $messages['add']; ?></a></td>
       </tr>
     </tfoot>
 <?php } ?>

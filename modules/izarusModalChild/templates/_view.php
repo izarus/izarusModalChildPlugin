@@ -3,6 +3,7 @@
   'collection'=>$collection,
   'messages'=>$messages,
   'class'=>$class,
+  'form_class'=>$form_class,
   'buttons'=>$buttons,
   'enabled_actions'=>$enabled_actions,
   'buttons_size'=>$buttons_size,
