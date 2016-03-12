@@ -1,5 +1,5 @@
      <div class="modal fade cloneAtEnd" id="izarusModalChild<?php echo $class; ?>Modal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i class="glyphicon glyphicon-remove"></i></span></button>
@@ -96,9 +96,9 @@ $(function(){
   var modal = $('<div>').html($('#izarusModalChild<?php echo $class; ?>Modal.cloneAtEnd').clone());
   modal.children('#izarusModalChild<?php echo $class; ?>Modal').removeClass('cloneAtEnd');
   $('body').append(modal.html().replace('[form','<form').replace('form]','>').replace('[/form]','</form>').replace('\\/','/'));
-  $('#izarusModalChild<?php echo $class; ?>Modal.cloneAtEnd').remove();   
+  $('#izarusModalChild<?php echo $class; ?>Modal.cloneAtEnd').remove();
 
   imf_<?php echo $class?>_updateClics();
-  imf_<?php echo $class?>_setActions();  
+  imf_<?php echo $class?>_setActions();
 });
 </script>
