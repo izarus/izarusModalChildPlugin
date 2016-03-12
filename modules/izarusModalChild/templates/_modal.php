@@ -96,16 +96,10 @@ $(function(){
   var modal = $('<div>').html($('#izarusModalChild<?php echo $class.$form_class; ?>Modal.cloneAtEnd').clone());
   modal.children('#izarusModalChild<?php echo $class.$form_class; ?>Modal').removeClass('cloneAtEnd');
   $('body').append(modal.html().replace('[form','<form').replace('form]','>').replace('[/form]','</form>').replace('\\/','/'));
-<<<<<<< HEAD
-  $('#izarusModalChild<?php echo $class; ?>Modal.cloneAtEnd').remove();
 
-  imf_<?php echo $class?>_updateClics();
-  imf_<?php echo $class?>_setActions();
-=======
   $('#izarusModalChild<?php echo $class.$form_class; ?>Modal.cloneAtEnd').remove();
 
   imf_<?php echo $class.$form_class?>_updateClics();
   imf_<?php echo $class.$form_class?>_setActions();
->>>>>>> 86df728c18130a4999e3e1226a2f4c570b29c3e4
 });
 </script>
