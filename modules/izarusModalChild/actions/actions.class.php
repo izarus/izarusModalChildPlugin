@@ -7,7 +7,7 @@ class izarusModalChildActions extends sfActions
     if(!$request->getParameter('imcd'))
       die;
     $secret = json_decode(base64_decode(strrev(str_replace('_','a',$request->getParameter('imcd')))),true);
-    if(!isset($secret['c']) || !isset($secret['f']) || !isset($secret['opi']) || !isset($secret['pi']))
+    if(!isset($secret['c']) || !isset($secret['f']))
       die;
     $clase = $secret['c'];
     $table_name = $clase.'Table';
@@ -35,14 +35,20 @@ class izarusModalChildActions extends sfActions
       $form = new $form_name();
     }else{
       $obj = $table_name::getInstance()->findOneById($id);
-      if(!$obj || ($obj && $obj->get($secret['opi'])!= $secret['pi']))
-        return $this->renderText('Forbidden');
+      if($secret['opi'] == null && $secret['pi'] == null){
+        if(!$obj)
+          return $this->renderText('Forbidden');
+      }else{
+        if(!$obj || ($obj && $obj->get($secret['opi'])!= $secret['pi']))
+          return $this->renderText('Forbidden');
+      }
       $form = new $form_name($obj);
     }
 
     if($request->isMethod('post')){
       $obj_arr = $request->getParameter($obj_name);
-      $obj_arr[$secret['opi']] = $secret['pi'];
+      if(!($secret['opi'] == null && $secret['pi'] == null))
+        $obj_arr[$secret['opi']] = $secret['pi'];
       $form->bind($obj_arr,$request->getFiles($obj_name));
       $form->updateObject();
       
@@ -50,7 +56,7 @@ class izarusModalChildActions extends sfActions
       try{
         //Eliminar
         if($del_id[0]=='del' && !empty($id)){
-          if($obj && $obj->get($secret['opi'])==$secret['pi']){
+          if($obj && (($secret['opi'] == null && $secret['pi'] == null) || $obj->get($secret['opi'])==$secret['pi'])){
             $obj->delete();
             $componet_data = $this->getUser()->getAttribute('izarusModalChild'.$clase.$form_name);
             
@@ -58,7 +64,13 @@ class izarusModalChildActions extends sfActions
             if(isset($componet_data['q']['root']))
               $root = $componet_data['q']['root'];
                         
-            $collection = $table_name::getInstance()->createQuery($root)->where($secret['opi'].' = ?',$secret['pi']);
+            $collection = $table_name::getInstance()->createQuery($root);
+            if(!($secret['opi'] == null && $secret['pi'] == null))
+              $collection->where($secret['opi'].' = ?',$secret['pi']);
+              
+            if(isset($componet_data['q']['where']))
+              foreach($componet_data['q']['where'] AS $wh)
+                $collection = $collection->andWhere($wh[0],$wh[1]);
             
             if(isset($componet_data['q']['left_joins']))
               foreach($componet_data['q']['left_joins'] AS $lj)
@@ -72,7 +84,10 @@ class izarusModalChildActions extends sfActions
               'collection'=>$collection,
               'messages'=>$componet_data['m'],
               'class'=>$clase,
+              'form_class'=>$form_name,
               'buttons'=>$componet_data['b'],
+              'enabled_actions'=>$componet_data['a'],
+              'buttons_size'=>$componet_data['s'],
             )));
           }
           return $this->renderText('ERROR');
@@ -88,7 +103,13 @@ class izarusModalChildActions extends sfActions
             if(isset($componet_data['q']['root']))
               $root = $componet_data['q']['root'];
                         
-            $collection = $table_name::getInstance()->createQuery($root)->where($secret['opi'].' = ?',$secret['pi']);
+            $collection = $table_name::getInstance()->createQuery($root);
+            if(!($secret['opi'] == null && $secret['pi'] == null))
+              $collection->where($secret['opi'].' = ?',$secret['pi']);
+              
+            if(isset($componet_data['q']['where']))
+              foreach($componet_data['q']['where'] AS $wh)
+                $collection = $collection->andWhere($wh[0],$wh[1]);
             
             if(isset($componet_data['q']['left_joins']))
               foreach($componet_data['q']['left_joins'] AS $lj)
@@ -102,12 +123,15 @@ class izarusModalChildActions extends sfActions
               'collection'=>$collection,
               'messages'=>$componet_data['m'],
               'class'=>$clase,
+              'form_class'=>$form_name,
               'buttons'=>$componet_data['b'],
+              'enabled_actions'=>$componet_data['a'],
+              'buttons_size'=>$componet_data['s'],
             )));
           }
         }
       }catch(Exception $e){
-        //throw $e;
+        throw $e;
         return $this->renderText('ERROR');
       }
 

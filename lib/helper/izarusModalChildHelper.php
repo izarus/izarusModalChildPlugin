@@ -12,7 +12,10 @@ function imc_parse_text($str,$obj){
   
   preg_match_all("|#(.*)#|U", $str, $match, PREG_PATTERN_ORDER);
   foreach($match[1] AS $function){
-    $str = str_replace('#'.$function.'#',$obj->$function(),$str);
+    if(!is_object($obj->$function()) || (is_object($obj->$function()) && method_exists($obj->$function(),'__toString') && !is_null($obj->$function()->__toString())))
+      $str = str_replace('#'.$function.'#',$obj->$function(),$str);
+    else
+      $str = str_replace('#'.$function.'#','',$str);
   }
   
   return html_entity_decode($str);

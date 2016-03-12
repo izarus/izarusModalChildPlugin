@@ -1,5 +1,5 @@
-     <div class="modal fade cloneAtEnd" id="izarusModalChild<?php echo $class; ?>Modal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
+     <div class="modal fade cloneAtEnd" id="izarusModalChild<?php echo $class.$form_class; ?>Modal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog <?php echo $modal_size; ?>">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i class="glyphicon glyphicon-remove"></i></span></button>
@@ -23,8 +23,8 @@
       </div>
     </div>
 <script>
-function imf_<?php echo $class?>_updateClics(){
-  $('#izarusModalChild<?php echo $class; ?>Load [data-toggle="modal"]').off('click').click(function(e){
+function imf_<?php echo $class.$form_class?>_updateClics(){
+  $('#izarusModalChild<?php echo $class.$form_class; ?>Load [data-toggle="modal"]').off('click').click(function(e){
     var id = $(this).attr('data-target');
     var param = {};
     var obj_id = $(this).attr('data-href');
@@ -61,31 +61,31 @@ function imf_<?php echo $class?>_updateClics(){
   });
 }
 
-function imf_<?php echo $class?>_setActions(){
-$('#izarusModalChild<?php echo $class; ?>Modal').on('hidden.bs.modal', function () {
+function imf_<?php echo $class.$form_class?>_setActions(){
+$('#izarusModalChild<?php echo $class.$form_class; ?>Modal').on('hidden.bs.modal', function () {
     var id = $(this).attr('id');
     $('#'+id+' .modal-body').html('<i class="fa fa-spin fa-spinner"></i> Cargando...');
   })
 
 
-    $('#izarusModalChild<?php echo $class; ?>Modal form').ajaxForm({beforeSubmit: function(){
-      $('#izarusModalChild<?php echo $class; ?>Modal form').children('.modal-footer').children('.espere').show();
-      $('#izarusModalChild<?php echo $class; ?>Modal form').children('.modal-footer').children('.botones').hide();
+    $('#izarusModalChild<?php echo $class.$form_class; ?>Modal form').ajaxForm({beforeSubmit: function(){
+      $('#izarusModalChild<?php echo $class.$form_class; ?>Modal form').children('.modal-footer').children('.espere').show();
+      $('#izarusModalChild<?php echo $class.$form_class; ?>Modal form').children('.modal-footer').children('.botones').hide();
     },success: function(responseText){
       response = responseText.split('|@|');
-      $('#izarusModalChild<?php echo $class; ?>Modal form').children('.modal-footer').children('.espere').hide();
-      $('#izarusModalChild<?php echo $class; ?>Modal form').children('.modal-footer').children('.botones').show();
+      $('#izarusModalChild<?php echo $class.$form_class; ?>Modal form').children('.modal-footer').children('.espere').hide();
+      $('#izarusModalChild<?php echo $class.$form_class; ?>Modal form').children('.modal-footer').children('.botones').show();
       if(response[0]=='ERROR'){
-        $('#izarusModalChild<?php echo $class; ?>Modal form').children('.modal-body').prepend('<div class="alert alert-danger">Ocurrió un error al intentar realizar esa acción.</div>');
+        $('#izarusModalChild<?php echo $class.$form_class; ?>Modal form').children('.modal-body').prepend('<div class="alert alert-danger">Ocurrió un error al intentar realizar esa acción.</div>');
       }else if(response[0]=='OK'){
-        $('#izarusModalChild<?php echo $class; ?>Modal form').parent().parent().parent().modal('hide');
-        $('#izarusModalChild<?php echo $class; ?>Load').html(response[1]);
-          imf_<?php echo $class?>_updateClics();
+        $('#izarusModalChild<?php echo $class.$form_class; ?>Modal form').parent().parent().parent().modal('hide');
+        $('#izarusModalChild<?php echo $class.$form_class; ?>Load').html(response[1]);
+          imf_<?php echo $class.$form_class?>_updateClics();
 <?php if(!empty($call_js_function)){ ?>
           <?php echo $call_js_function; ?>();
 <?php } ?>
       }else{
-        $('#izarusModalChild<?php echo $class; ?>Modal form').children('.modal-body').html(response[1]);
+        $('#izarusModalChild<?php echo $class.$form_class; ?>Modal form').children('.modal-body').html(response[1]);
       }
     }});
 
@@ -93,12 +93,19 @@ $('#izarusModalChild<?php echo $class; ?>Modal').on('hidden.bs.modal', function 
 
 
 $(function(){
-  var modal = $('<div>').html($('#izarusModalChild<?php echo $class; ?>Modal.cloneAtEnd').clone());
-  modal.children('#izarusModalChild<?php echo $class; ?>Modal').removeClass('cloneAtEnd');
+  var modal = $('<div>').html($('#izarusModalChild<?php echo $class.$form_class; ?>Modal.cloneAtEnd').clone());
+  modal.children('#izarusModalChild<?php echo $class.$form_class; ?>Modal').removeClass('cloneAtEnd');
   $('body').append(modal.html().replace('[form','<form').replace('form]','>').replace('[/form]','</form>').replace('\\/','/'));
+<<<<<<< HEAD
   $('#izarusModalChild<?php echo $class; ?>Modal.cloneAtEnd').remove();
 
   imf_<?php echo $class?>_updateClics();
   imf_<?php echo $class?>_setActions();
+=======
+  $('#izarusModalChild<?php echo $class.$form_class; ?>Modal.cloneAtEnd').remove();
+
+  imf_<?php echo $class.$form_class?>_updateClics();
+  imf_<?php echo $class.$form_class?>_setActions();
+>>>>>>> 86df728c18130a4999e3e1226a2f4c570b29c3e4
 });
 </script>
