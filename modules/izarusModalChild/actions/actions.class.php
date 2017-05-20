@@ -95,10 +95,7 @@ class izarusModalChildActions extends sfActions
         //Insertar o Actualizar
         }else{
           if($form->isValid()){
-            $form->updateObject();
-            if (!$form->getValue('id')) {
-              $form->getObject()->setId(NULL);
-            }
+
             $form->getObject()->save();
 
             $componet_data = $this->getUser()->getAttribute('izarusModalChild'.$clase.$form_name);
